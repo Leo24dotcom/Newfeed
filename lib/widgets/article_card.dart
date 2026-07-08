@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mypage/models/news_article.dart';
+import 'package:mypage/viewmodels/news_view_model.dart';
+
 
   class ArticleCard extends StatelessWidget {
     final NewsArticle article;
-
-    const ArticleCard({super.key, required this.article});
+    final ViewModel viewModel;
+    const ArticleCard({super.key, required this.article, required this.viewModel});
+    
 
     @override
     Widget build(BuildContext context){
@@ -21,13 +24,31 @@ import 'package:mypage/models/news_article.dart';
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: Colors.blue
+                    color: switch(article.category){
+                      'Technology' =>
+                        Colors.blue,
+                      'Health' =>
+                        Colors.green,
+                      'Sports' =>
+                        Colors.red,
+                      'Business' =>
+                        Colors.purple,
+                      'Science' =>
+                        Colors.orange,
+                      _ => Colors.grey
+                    }
                   ),
-                  child: Text(article.category)),
+                  child: Text(article.category,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ))),
                 ),
-                IconButton(icon: Icon(Icons.bookmark), onPressed: () { 
-                  debugPrint('Bookmarked!');
-                 },)
+                IconButton(onPressed: () { 
+                  viewModel.toggleBookmark(article.id);
+                 },
+                 icon: Icon(Icons.bookmark, color: article.isBookmarked ? Color(0xFFC8FF00) : Colors.grey), 
+                 )
               ],
             ),      
             Align(
@@ -46,7 +67,7 @@ import 'package:mypage/models/news_article.dart';
               children: [           
               Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical : 10),
               child: Text(article.summary,
               style: TextStyle(
                 color: Colors.grey,
@@ -66,8 +87,6 @@ import 'package:mypage/models/news_article.dart';
           ],
             ),
         );
-
     }
-
   }
 

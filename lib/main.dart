@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mypage/models/news_article.dart';
-import 'widgets/article_card.dart';
+import 'package:mypage/views/news_screen.dart';
 import 'widgets/category_filter.dart';
 void main() {
   addSet();
@@ -15,15 +14,16 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.black,
         body: 
         Padding(
           padding: const EdgeInsets.all(16),
           child: Column(         
             spacing: 16, 
             children: [
-            HorizontalButtonList(),  
-            ArticleCard(article: NewsArticle(id: '0', category: 'horror', headline: 'KIMCHI SHORTAGE wadhowhaodhwoahdoiashodhahodwqahdoajodawohdoahdoahowhdoawhd', summary: 'yesdwha9ohdoawhdoawhohd0wahd9w8ahsiudhowahdowadwajdpwajpdjwapjdpwajdawjdoawjdoajdowajd', source: 'me', minutesAgo: 0)),
-          ArticleCard(article: NewsArticle(id: '0', category: 'horror', headline: 'KIMCHI SHORTAGE', summary: 'yes', source: 'me', minutesAgo: 0)),
+              Expanded(
+            child: NewsScreen(),
+              ),
             ],
           ),
         ),

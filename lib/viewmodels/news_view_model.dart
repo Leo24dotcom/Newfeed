@@ -10,7 +10,7 @@ class ViewModel extends ChangeNotifier{
   ViewModel({
     this.isLoading = false,
     required this.Articles,
-    required this.selectedCategory,
+    this.selectedCategory = 'All',
 });
 
 
@@ -30,14 +30,10 @@ class ViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<NewsArticle> filteredArticles(List<NewsArticle> articles){
-    List<NewsArticle> filteredList = [];
-    for(NewsArticle article in articles){
-      if(article.category == selectedCategory){
-        filteredList.add(article);
-      }
-    }
-    return filteredList;
+  List<NewsArticle> get filteredArticles{
+    if(selectedCategory.isEmpty) return Articles;
+    else if(selectedCategory == 'All') return Articles;
+    return Articles.where((a) => a.category == selectedCategory).toList();
   }
   
   void toggleBookmark(String id){

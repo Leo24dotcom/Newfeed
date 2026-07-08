@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mypage/models/news_article.dart';
 import 'package:mypage/models/news_model.dart';
 import 'package:mypage/viewmodels/news_view_model.dart';
-import 'package:mypage/views/news_screen.dart';
+
 
 
 Set <String> categories = {};
@@ -13,7 +13,11 @@ void addSet(){
   }
 }
 
+
+
 class HorizontalButtonList extends StatelessWidget {
+  final ViewModel viewModel;
+  const HorizontalButtonList({super.key, required this.viewModel});
   List<String> get Categories => categories.toList();
   @override
   Widget build(BuildContext context) {
@@ -23,20 +27,25 @@ class HorizontalButtonList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: Categories.length,
         itemBuilder: (context, index){
+          final category = Categories[index];
+          final isSelected = category == viewModel.selectedCategory;
           return Padding(
             padding: const EdgeInsets.only(right: 14),
             child: ElevatedButton(
               onPressed: (){
-                debugPrint('${Categories[index]} pressed');
-              
+                viewModel.selectCategory(Categories[index]);
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                backgroundColor: Colors.green,
+                backgroundColor: isSelected ? Color(0xFFC8FF00): Color(0xFF1C1C1C),
               ),
-              child: Text(Categories[index])
+              child: Text(Categories[index],
+              style: TextStyle(
+                color: isSelected ? Colors.black : Colors.grey,
+                fontWeight: isSelected? FontWeight.bold : FontWeight.normal
+              ))
               )
             );
         },
